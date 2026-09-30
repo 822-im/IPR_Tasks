@@ -1,0 +1,182 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f7f6fb">
+    <title>AI Presentation Generator | AI Classroom</title>
+    <link rel="stylesheet" href="task03.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.8.0/mammoth.browser.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js"></script>
+    <script src="task03.js" defer></script>
+</head>
+<body>
+    <div class="page-container">
+        <header class="header">
+            <a href="../../index.html" class="logo">
+                <span class="logo-icon">✦</span>
+                <span>AI Classroom</span>
+            </a>
+
+            <div class="header-actions">
+                <span class="task-label">Presentation Generator</span>
+                <button class="theme-toggle" id="themeToggle"
+                    type="button" aria-label="Switch theme">☾</button>
+                <a href="../../index.html" class="dashboard-button">
+                    ← Dashboard
+                </a>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <div class="workspace">
+                <section class="page-heading">
+                    <span class="eyebrow">TASK 03 · PRESENTATION</span>
+                    <h1>AI Presentation <span class="accent">Generator.</span></h1>
+                    <p>Turn your ideas and study material into professional presentations.</p>
+                </section>
+
+                <div class="workspace-grid">
+                    <section class="card input-card">
+                        <div class="section-heading">
+                            <div class="section-number">01 / INPUT</div>
+                            <h2>Create your presentation</h2>
+                            <p class="description">
+                                Enter a topic, paste your material or upload a document.
+                            </p>
+                        </div>
+
+                        <form id="presentationForm">
+                            <div class="form-group">
+                                <label for="presentationTopic">PRESENTATION TOPIC</label>
+                                <input id="presentationTopic" type="text"
+                                    placeholder="e.g. Artificial Intelligence">
+                                <small class="field-hint">
+                                    Enter the main subject of your presentation.
+                                </small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="audience">TARGET AUDIENCE</label>
+                                <select id="audience">
+                                    <option value="College students">College students</option>
+                                    <option value="School students">School students</option>
+                                    <option value="Teachers and educators">Teachers and educators</option>
+                                    <option value="Technical professionals">Technical professionals</option>
+                                    <option value="Business professionals">Business professionals</option>
+                                    <option value="General audience">General audience</option>
+                                </select>
+                            </div>
+
+                            <div class="two-columns">
+                                <div class="form-group">
+                                    <label for="slideCount">NUMBER OF SLIDES</label>
+                                    <select id="slideCount">
+                                        <option value="5">5 slides</option>
+                                        <option value="8" selected>8 slides</option>
+                                        <option value="10">10 slides</option>
+                                        <option value="12">12 slides</option>
+                                        <option value="15">15 slides</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="presentationStyle">PRESENTATION STYLE</label>
+                                    <select id="presentationStyle">
+                                        <option value="Modern and minimal">Modern</option>
+                                        <option value="Professional corporate">Corporate</option>
+                                        <option value="Academic and educational">Academic</option>
+                                        <option value="Creative and colorful">Creative</option>
+                                        <option value="Simple and elegant">Elegant</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="sourceText">ADDITIONAL INFORMATION</label>
+                                <textarea id="sourceText" rows="6"
+                                    placeholder="Paste your notes, important points or instructions here..."></textarea>
+                                <div class="text-meta">
+                                    <span>Paste your content or upload a file below.</span>
+                                    <span id="wordCount">0 words</span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="sourceFile">UPLOAD STUDY MATERIAL</label>
+                                <label class="upload-box" for="sourceFile" id="uploadBox">
+                                    <span class="upload-icon">↑</span>
+                                    <span class="upload-copy">
+                                        <strong>Upload a document or image</strong>
+                                        <small>PDF, DOCX, TXT, PNG, JPG · Max 10 MB</small>
+                                    </span>
+                                </label>
+                                <input id="sourceFile" type="file"
+                                    accept=".pdf,.docx,.txt,.png,.jpg,.jpeg,.webp"
+                                    hidden>
+                                <div id="fileInfo" class="file-info" hidden>
+                                    <span class="file-icon">▤</span>
+                                    <span id="fileName"></span>
+                                    <button type="button" id="removeFile"
+                                        class="remove-file" aria-label="Remove file">×</button>
+                                </div>
+                            </div>
+
+                            <p id="errorMessage" class="error-message"
+                                role="alert" aria-live="polite"></p>
+
+                            <button type="submit" id="generateButton"
+                                class="primary-button">
+                                <span id="buttonText">Generate Presentation</span>
+                                <span class="button-arrow">→</span>
+                            </button>
+                        </form>
+                    </section>
+
+                    <section class="card output-card">
+                        <div class="output-header">
+                            <div>
+                                <div class="section-number">02 / OUTPUT</div>
+                                <h2>Generated presentation</h2>
+                                <p class="description">
+                                    Preview and edit your slides before exporting.
+                                </p>
+                            </div>
+
+                            <div class="output-actions">
+                                <button id="editButton" class="secondary-button"
+                                    type="button" hidden>← Edit details</button>
+                                <button id="copyButton" class="secondary-button"
+                                    type="button" disabled>Copy</button>
+                                <button id="downloadButton" class="secondary-button"
+                                    type="button" disabled>PPTX</button>
+                                <button id="printButton" class="secondary-button"
+                                    type="button" disabled>PDF</button>
+                            </div>
+                        </div>
+
+                        <div id="slidesOutput" class="slides-output" aria-live="polite">
+                            <div class="empty-state" id="emptyState">
+                                <div class="empty-icon">▤</div>
+                                <h3>Your slides will appear here</h3>
+                                <p>
+                                    Enter a topic or upload study material
+                                    and click Generate Presentation.
+                                </p>
+                            </div>
+                        </div>
+
+                        <p class="output-hint">
+                            Click on slide text to edit it before downloading or printing.
+                        </p>
+                    </section>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

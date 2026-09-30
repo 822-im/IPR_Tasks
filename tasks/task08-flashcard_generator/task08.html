@@ -1,0 +1,232 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f6f5fc">
+  <title>AI Flashcard Generator | AI Classroom</title>
+  <link rel="stylesheet" href="task08.css">
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <a class="brand" href="../../index.html" aria-label="AI Classroom home">
+        <span class="brand-logo">AI</span>
+        <span>
+          <strong>AI Classroom</strong>
+          <small>Flashcard Generator</small>
+        </span>
+      </a>
+
+      <div class="header-actions">
+        <button class="back-button" id="backButton" type="button">
+          <span aria-hidden="true">←</span> Return
+        </button>
+        <button class="theme-button" id="themeToggle" type="button"
+                aria-label="Toggle theme" title="Toggle theme">☾</button>
+      </div>
+    </header>
+
+    <main class="layout">
+      <aside class="sidebar">
+        <div class="sidebar-title">
+          <div>
+            <h2>My flashcards</h2>
+            <p>Your saved study sets</p>
+          </div>
+          <span class="set-count" id="setCount">0</span>
+        </div>
+
+        <button class="new-set-button" id="newSetButton" type="button">
+          <span>＋</span> Create new set
+        </button>
+
+        <div class="saved-sets" id="savedSets">
+          <p class="empty-history">Your saved sets will appear here.</p>
+        </div>
+
+        <button class="clear-history-button" id="clearHistoryButton" type="button">
+          Clear all saved sets
+        </button>
+      </aside>
+
+      <section class="workspace">
+        <section class="page-heading" id="pageHeading">
+          <span class="eyebrow">ACTIVE RECALL · SMART STUDY</span>
+          <h1>AI Flashcard Generator</h1>
+          <p>Turn your notes into flashcards and learn one concept at a time.</p>
+        </section>
+
+        <section class="setup-grid" id="setupSection">
+          <div class="setup-card">
+            <div class="section-heading">
+              <div class="heading-icon">✦</div>
+              <div>
+                <h2>Create flashcards</h2>
+                <p>Choose a topic or paste your study material.</p>
+              </div>
+            </div>
+
+            <form id="flashcardForm">
+              <div class="field">
+                <label for="topic">Topic <span class="required">*</span></label>
+                <input id="topic" name="topic" type="text"
+                       placeholder="e.g., Machine Learning, DBMS, NLP" required
+                       maxlength="150">
+              </div>
+
+              <div class="field">
+                <label for="sourceText">Study material <span class="optional">(optional)</span></label>
+                <textarea id="sourceText" name="sourceText" rows="6"
+                          maxlength="20000"
+                          placeholder="Paste your notes, textbook extracts, or important concepts here..."></textarea>
+                <div class="field-hint">Flashcards can be created from your topic alone or from the material you provide.</div>
+              </div>
+
+              <div class="form-row">
+                <div class="field">
+                  <label for="difficulty">Difficulty</label>
+                  <select id="difficulty" name="difficulty">
+                    <option value="Beginner">Beginner</option>
+                    <option value="Intermediate" selected>Intermediate</option>
+                    <option value="Advanced">Advanced</option>
+                    <option value="Mixed">Mixed</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="cardCount">Number of cards</label>
+                  <select id="cardCount" name="cardCount">
+                    <option value="5">5 cards</option>
+                    <option value="10" selected>10 cards</option>
+                    <option value="15">15 cards</option>
+                    <option value="20">20 cards</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="field">
+                <label for="extraInstructions">Additional instructions <span class="optional">(optional)</span></label>
+                <input id="extraInstructions" type="text" maxlength="500"
+                       placeholder="e.g., Focus on definitions and examples">
+              </div>
+
+              <div class="error-message" id="errorMessage" role="alert" hidden></div>
+
+              <button class="generate-button" id="generateButton" type="submit">
+                <span id="generateIcon">✦</span>
+                <span id="generateText">Generate flashcards</span>
+              </button>
+            </form>
+          </div>
+
+          <div class="side-content">
+            <div class="tips-card">
+              <div class="tips-icon">💡</div>
+              <h3>Study smarter</h3>
+              <p>Use active recall to test what you remember before revealing the answer.</p>
+              <ul>
+                <li>Try answering before flipping.</li>
+                <li>Mark difficult cards for review.</li>
+                <li>Revisit saved sets regularly.</li>
+              </ul>
+            </div>
+
+            <div class="examples-card">
+              <h3>Try a topic</h3>
+              <div class="topic-chips">
+                <button type="button" data-topic="Data Structures and Algorithms">DSA</button>
+                <button type="button" data-topic="Database Management Systems">DBMS</button>
+                <button type="button" data-topic="Machine Learning">Machine Learning</button>
+                <button type="button" data-topic="Natural Language Processing">NLP</button>
+                <button type="button" data-topic="Operating Systems">Operating Systems</button>
+                <button type="button" data-topic="Computer Networks">Computer Networks</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="study-section" id="studySection" hidden>
+          <div class="study-header">
+            <div class="study-title">
+              <button class="text-button" id="backToSetup" type="button">← Back to generator</button>
+              <h2 id="setTitle">Flashcard set</h2>
+              <p id="setDescription"></p>
+            </div>
+            <div class="study-actions">
+              <button class="secondary-button" id="saveSetButton" type="button">♡ Save set</button>
+              <button class="secondary-button" id="downloadButton" type="button">↓ Export CSV</button>
+            </div>
+          </div>
+
+          <div class="progress-card">
+            <div class="progress-top">
+              <div>
+                <span class="progress-label">Study progress</span>
+                <strong id="progressText">Card 1 of 10</strong>
+              </div>
+              <div class="progress-stats">
+                <span class="known-stat">Known: <strong id="knownText">0</strong></span>
+                <span class="review-stat">Review: <strong id="reviewText">0</strong></span>
+              </div>
+            </div>
+            <div class="progress-track">
+              <div class="progress-bar" id="progressBar"></div>
+            </div>
+          </div>
+
+          <div class="flashcard-area">
+            <button class="flip-hint" id="flipHint" type="button">
+              Click the card to reveal the answer
+            </button>
+
+            <button class="flashcard" id="flashcard" type="button"
+                    aria-label="Flip flashcard" aria-pressed="false">
+              <span class="flashcard-inner" id="flashcardInner">
+                <span class="card-face card-front">
+                  <span class="card-label">QUESTION</span>
+                  <span class="card-text" id="questionText"></span>
+                  <span class="card-footnote">Click to reveal answer ↻</span>
+                </span>
+                <span class="card-face card-back">
+                  <span class="card-label">ANSWER</span>
+                  <span class="card-text" id="answerText"></span>
+                  <span class="card-footnote">Click to see question ↻</span>
+                </span>
+              </span>
+            </button>
+
+            <div class="card-controls">
+              <button class="secondary-button" id="previousButton" type="button">← Previous</button>
+              <span class="card-position" id="cardPosition">1 / 10</span>
+              <button class="secondary-button" id="nextButton" type="button">Next →</button>
+            </div>
+
+            <div class="review-controls">
+              <button class="review-button" id="reviewButton" type="button">
+                <span>↻</span> Review again
+              </button>
+              <button class="known-button" id="knownButton" type="button">
+                <span>✓</span> I know this
+              </button>
+            </div>
+
+            <div class="extra-controls">
+              <button class="text-button" id="shuffleButton" type="button">⤨ Shuffle cards</button>
+              <button class="text-button" id="resetProgressButton" type="button">Reset progress</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="welcome-card" id="welcomeSection">
+          <div class="welcome-symbol">✧</div>
+          <h2>Learn at your own pace</h2>
+          <p>Generate a set of flashcards to begin. You can save it and return to it whenever you want.</p>
+        </section>
+      </section>
+    </main>
+  </div>
+
+  <script src="task08.js"></script>
+</body>
+</html>

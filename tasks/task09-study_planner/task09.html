@@ -1,0 +1,275 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f6f5fc">
+  <title>AI Study Planner | AI Classroom</title>
+  <link rel="stylesheet" href="task09.css">
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <a class="brand" href="../../index.html">
+        <span class="brand-logo">AI</span>
+        <span>
+          <strong>AI Classroom</strong>
+          <small>Study Planner</small>
+        </span>
+      </a>
+      <div class="header-actions">
+        <button class="back-button" id="backButton" type="button">
+          <span>←</span> Return
+        </button>
+        <button class="theme-button" id="themeToggle" type="button"
+                aria-label="Toggle theme" title="Toggle theme">☾</button>
+      </div>
+    </header>
+
+    <main class="layout">
+      <aside class="sidebar">
+        <div class="sidebar-title">
+          <div>
+            <h2>My study plans</h2>
+            <p>Your saved schedules</p>
+          </div>
+          <span class="plan-count" id="planCount">0</span>
+        </div>
+
+        <button class="new-plan-button" id="newPlanButton" type="button">
+          <span>＋</span> Create new plan
+        </button>
+
+        <div class="saved-plans" id="savedPlans">
+          <p class="empty-history">Your saved plans will appear here.</p>
+        </div>
+
+        <button class="clear-history-button" id="clearHistoryButton" type="button">
+          Clear all saved plans
+        </button>
+      </aside>
+
+      <section class="workspace">
+        <section class="page-heading" id="pageHeading">
+          <span class="eyebrow">PLAN · STUDY · ACHIEVE</span>
+          <h1>AI Study Planner</h1>
+          <p>Create a realistic study schedule tailored to your goals.</p>
+        </section>
+
+        <section class="setup-grid" id="setupSection">
+          <div class="setup-card">
+            <div class="section-heading">
+              <div class="heading-icon">✦</div>
+              <div>
+                <h2>Create your study plan</h2>
+                <p>Tell us about your subjects and study goals.</p>
+              </div>
+            </div>
+
+            <form id="plannerForm">
+              <div class="field">
+                <label for="planTitle">Plan name <span class="required">*</span></label>
+                <input id="planTitle" type="text" maxlength="100"
+                       placeholder="e.g., Semester examination preparation" required>
+              </div>
+
+              <div class="field">
+                <label for="subjects">Subjects and topics <span class="required">*</span></label>
+                <textarea id="subjects" rows="5" maxlength="8000"
+                  placeholder="Example:
+Data Structures: Trees, Graphs, Dynamic Programming
+DBMS: SQL, Normalization, Transactions
+Operating Systems: Processes, Scheduling, Memory Management"
+                  required></textarea>
+                <span class="field-hint">Enter each subject and its topics on a separate line.</span>
+              </div>
+
+              <div class="form-row">
+                <div class="field">
+                  <label for="startDate">Start date</label>
+                  <input id="startDate" type="date" required>
+                </div>
+                <div class="field">
+                  <label for="examDate">Exam / deadline</label>
+                  <input id="examDate" type="date" required>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="field">
+                  <label for="dailyHours">Study hours per day</label>
+                  <select id="dailyHours">
+                    <option value="1">1 hour</option>
+                    <option value="2">2 hours</option>
+                    <option value="3" selected>3 hours</option>
+                    <option value="4">4 hours</option>
+                    <option value="5">5 hours</option>
+                    <option value="6">6 hours</option>
+                    <option value="8">8 hours</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="difficulty">Current preparation</label>
+                  <select id="difficulty">
+                    <option value="Beginner">Beginner</option>
+                    <option value="Intermediate" selected>Intermediate</option>
+                    <option value="Advanced">Advanced</option>
+                    <option value="Mixed">Mixed</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="field">
+                  <label for="breakDuration">Break between sessions</label>
+                  <select id="breakDuration">
+                    <option value="5">5 minutes</option>
+                    <option value="10" selected>10 minutes</option>
+                    <option value="15">15 minutes</option>
+                    <option value="20">20 minutes</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="studyStyle">Study style</label>
+                  <select id="studyStyle">
+                    <option value="Balanced" selected>Balanced</option>
+                    <option value="Practice-focused">Practice-focused</option>
+                    <option value="Revision-focused">Revision-focused</option>
+                    <option value="Concept-focused">Concept-focused</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="field">
+                <label for="extraInstructions">Additional preferences <span class="optional">(optional)</span></label>
+                <textarea id="extraInstructions" rows="2" maxlength="1000"
+                  placeholder="e.g., Keep Sundays lighter, prioritize difficult topics"></textarea>
+              </div>
+
+              <div class="error-message" id="errorMessage" role="alert" hidden></div>
+
+              <button class="generate-button" id="generateButton" type="submit">
+                <span id="generateIcon">✦</span>
+                <span id="generateText">Generate study plan</span>
+              </button>
+            </form>
+          </div>
+
+          <div class="side-content">
+            <div class="tips-card">
+              <div class="tips-icon">💡</div>
+              <h3>Plan effectively</h3>
+              <p>Build a schedule you can realistically follow.</p>
+              <ul>
+                <li>Set achievable daily goals.</li>
+                <li>Leave time for revision.</li>
+                <li>Take regular breaks.</li>
+                <li>Track your completed sessions.</li>
+              </ul>
+            </div>
+
+            <div class="examples-card">
+              <h3>Quick templates</h3>
+              <div class="template-list">
+                <button type="button" data-template="semester">
+                  <span>📚</span>
+                  <span><strong>Semester exams</strong><small>Multiple subjects</small></span>
+                </button>
+                <button type="button" data-template="interview">
+                  <span>💻</span>
+                  <span><strong>Placement preparation</strong><small>DSA and core CS</small></span>
+                </button>
+                <button type="button" data-template="revision">
+                  <span>📝</span>
+                  <span><strong>Quick revision</strong><small>Focused revision</small></span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="planner-section" id="plannerSection" hidden>
+          <div class="plan-header">
+            <div class="plan-title-area">
+              <button class="text-button" id="backToSetup" type="button">← Back to generator</button>
+              <h2 id="resultTitle">My study plan</h2>
+              <p id="resultSubtitle"></p>
+            </div>
+            <div class="plan-actions">
+              <button class="secondary-button" id="savePlanButton" type="button">♡ Save plan</button>
+              <button class="secondary-button" id="exportButton" type="button">↓ Export CSV</button>
+            </div>
+          </div>
+
+          <div class="stats-grid">
+            <div class="stat-card">
+              <span class="stat-icon purple">▦</span>
+              <div><span class="stat-label">Total sessions</span><strong id="totalSessions">0</strong></div>
+            </div>
+            <div class="stat-card">
+              <span class="stat-icon green">✓</span>
+              <div><span class="stat-label">Completed</span><strong id="completedSessions">0</strong></div>
+            </div>
+            <div class="stat-card">
+              <span class="stat-icon orange">◷</span>
+              <div><span class="stat-label">Study hours</span><strong id="totalHours">0</strong></div>
+            </div>
+            <div class="stat-card">
+              <span class="stat-icon blue">%</span>
+              <div><span class="stat-label">Progress</span><strong id="completionRate">0%</strong></div>
+            </div>
+          </div>
+
+          <div class="overall-progress-card">
+            <div class="progress-heading">
+              <div>
+                <h3>Overall progress</h3>
+                <p>Track how much of your plan you have completed.</p>
+              </div>
+              <strong id="overallProgressText">0%</strong>
+            </div>
+            <div class="progress-track">
+              <div class="progress-fill" id="overallProgressBar"></div>
+            </div>
+          </div>
+
+          <div class="schedule-card">
+            <div class="schedule-heading">
+              <div>
+                <h3>Daily schedule</h3>
+                <p>Check off sessions as you complete them.</p>
+              </div>
+              <div class="schedule-filter">
+                <label for="dayFilter">View</label>
+                <select id="dayFilter">
+                  <option value="all">All days</option>
+                  <option value="pending">Pending</option>
+                  <option value="completed">Completed</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="schedule-list" id="scheduleList"></div>
+          </div>
+
+          <div class="plan-footer">
+            <button class="text-button" id="resetProgressButton" type="button">Reset completion progress</button>
+            <button class="text-button" id="regenerateButton" type="button">Create another plan</button>
+          </div>
+        </section>
+
+        <section class="welcome-card" id="welcomeSection">
+          <div class="welcome-symbol">✧</div>
+          <div>
+            <h2>Your next study session starts here</h2>
+            <p>Generate a personalized schedule, complete your sessions and save your progress.</p>
+          </div>
+        </section>
+      </section>
+    </main>
+  </div>
+
+  <script src="task09.js"></script>
+</body>
+</html>

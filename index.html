@@ -1,0 +1,78 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AI Classroom Studio">
+    <title>AI Classroom Studio</title>
+    <link rel="stylesheet" href="assets/css/main.css">
+    <script src="assets/js/main.js" defer></script>
+</head>
+<body>
+    <div class="page-container">
+        <header class="header">
+            <a href="./index.html" class="logo">
+                <span class="logo-icon">✦</span>
+                <span>AI Classroom Studio</span>
+            </a>
+            <button type="button" class="theme-toggle" id="themeToggle"
+                    aria-label="Switch to dark mode">☾</button>
+        </header>
+
+        <main class="main-content">
+            <section class="card">
+                <div class="card-heading">
+                    <span class="eyebrow">YOUR AI LEARNING WORKSPACE</span>
+                    <h1>Start creating<span class="accent">.</span></h1>
+                    <p>Choose a tool and bring your ideas to life.</p>
+                </div>
+
+                <form id="launchForm" novalidate>
+                    <div class="form-group">
+                        <label for="apiKey">API KEY</label>
+                        <div class="input-container">
+                            <input type="password" id="apiKey"
+                                   placeholder="Enter yourAPI key"
+                                   autocomplete="off" required>
+                            <button type="button" id="toggleKey"
+                                    class="show-key">Show</button>
+                        </div>
+                        <small class="hint">Your key is stored for this browser session.</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="taskSelect">TASKS</label>
+                        <div class="select-container">
+                            <select id="taskSelect" name="task" required>
+                                <option value="" selected disabled>Select your task</option>
+                                <option value="1">AI Resume Builder</option>
+                                <option value="2">AI-Powered Notes Generator</option>
+                                <option value="3">AI Presentation Generator</option>
+                                <option value="4">AI Mind Map Generator</option>
+                                <option value="5">Google Sheets as Backend</option>
+                                <option value="6">AI Quiz Generator</option>
+                                <option value="7">AI Subject Doubt-Solving Chatbot</option>
+                                <option value="8">AI Flashcard Generator</option>
+                                <option value="9">AI Study Planner</option>
+                                <option value="10">AI Notes Summarizer from Photos</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <p id="errorMessage" class="error-message"
+                       role="alert" aria-live="polite"></p>
+
+                    <button type="submit" id="generateBtn"
+                            class="generate-button">
+                        <span>Generate</span>
+                        <span class="arrow">→</span>
+                    </button>
+                </form>
+            </section>
+        </main>
+
+        <footer class="footer">AI Classroom Studio</footer>
+    </div>
+</body>
+</html>

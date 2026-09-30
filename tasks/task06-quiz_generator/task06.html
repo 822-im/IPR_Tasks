@@ -1,0 +1,147 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f7f6fb">
+    <title>AI Quiz Generator | AI Classroom</title>
+    <link rel="stylesheet" href="task06.css">
+    <script src="task06.js" defer></script>
+</head>
+<body>
+    <header class="topbar">
+        <a href="../../index.html" class="brand">
+            <span class="brand-icon">✦</span>
+            <span>AI Classroom</span>
+        </a>
+
+        <div class="header-right">
+            <span class="task-label">Quiz Generator</span>
+            <button id="themeToggle" class="theme-toggle"
+                    type="button" aria-label="Switch to dark mode">
+                ☾
+            </button>
+            <a href="../../index.html" class="dashboard-link">
+                ← Dashboard
+            </a>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <section class="page-heading">
+            <span class="eyebrow">TASK 06 · AI LEARNING TOOLS</span>
+            <h1>AI Quiz <span class="accent">Generator.</span></h1>
+            <p>Create personalized quizzes, test your knowledge
+               and track your progress.</p>
+        </section>
+
+        <div class="workspace-grid">
+            <section class="card setup-card">
+                <div class="section-heading">
+                    <div class="step-label">01 / SETUP</div>
+                    <h2>Quiz settings</h2>
+                    <p>Choose your topic and customize your quiz.</p>
+                </div>
+
+                <form id="quizForm">
+                    <div class="form-group">
+                        <label for="topic">TOPIC *</label>
+                        <input id="topic" type="text"
+                               placeholder="e.g., Data Structures and Algorithms"
+                               required maxlength="200">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="sourceText">
+                            STUDY MATERIAL (OPTIONAL)
+                        </label>
+                        <textarea id="sourceText" rows="5"
+                            placeholder="Paste your notes or study material here. Questions can be based on the content you provide."></textarea>
+                        <div class="field-footer">
+                            <small>Use your notes to create questions based on specific material.</small>
+                            <small id="wordCount">0 words</small>
+                        </div>
+                    </div>
+
+                    <div class="two-columns">
+                        <div class="form-group">
+                            <label for="difficulty">DIFFICULTY</label>
+                            <select id="difficulty">
+                                <option value="Easy">Easy</option>
+                                <option value="Medium" selected>Medium</option>
+                                <option value="Hard">Hard</option>
+                                <option value="Mixed">Mixed</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="questionCount">QUESTIONS</label>
+                            <select id="questionCount">
+                                <option value="5">5 questions</option>
+                                <option value="10" selected>10 questions</option>
+                                <option value="15">15 questions</option>
+                                <option value="20">20 questions</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="questionType">QUESTION TYPE</label>
+                        <select id="questionType">
+                            <option value="mcq">Multiple choice</option>
+                            <option value="true_false">True / False</option>
+                            <option value="short_answer">Short answer</option>
+                            <option value="mixed">Mixed questions</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="additionalInstructions">
+                            ADDITIONAL INSTRUCTIONS (OPTIONAL)
+                        </label>
+                        <textarea id="additionalInstructions" rows="3"
+                            placeholder="e.g., Focus on practical examples or important exam concepts."></textarea>
+                    </div>
+
+                    <div class="examples">
+                        <span class="examples-title">TRY A TOPIC</span>
+                        <div class="example-buttons">
+                            <button class="example-button" type="button"
+                                    data-topic="Python Programming">Python</button>
+                            <button class="example-button" type="button"
+                                    data-topic="Machine Learning">Machine Learning</button>
+                            <button class="example-button" type="button"
+                                    data-topic="Database Management Systems">DBMS</button>
+                            <button class="example-button" type="button"
+                                    data-topic="Computer Networks">Networks</button>
+                        </div>
+                    </div>
+
+                    <p class="error-message" id="errorMessage"
+                       role="alert" aria-live="polite"></p>
+
+                    <button type="submit" class="primary-button"
+                            id="generateButton">
+                        <span id="buttonText">Generate quiz</span>
+                        <span aria-hidden="true">→</span>
+                    </button>
+                </form>
+            </section>
+
+            <section class="card welcome-card">
+                <div class="welcome-illustration">✎</div>
+                <h2>Ready to test yourself?</h2>
+                <p>Set your quiz preferences and generate a quiz
+                   to test your knowledge.</p>
+                <div class="feature-list">
+                    <div><span>✓</span> Customizable questions</div>
+                    <div><span>✓</span> Instant scoring</div>
+                    <div><span>✓</span> Answer explanations</div>
+                    <div><span>✓</span> Progress review</div>
+                </div>
+            </section>
+        </div>
+    </main>
+</body>
+</html>

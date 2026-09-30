@@ -1,0 +1,121 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Doubt Chatbot | AI Classroom</title>
+  <link rel="stylesheet" href="task07.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Header -->
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-icon">AI</div>
+        <div>
+          <h2>AI Classroom</h2>
+          <span>Doubt Chatbot</span>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <button class="back-button" id="backButton" type="button">
+          <span aria-hidden="true">←</span> Return
+        </button>
+        <button class="icon-button" id="themeToggle"
+                type="button" aria-label="Toggle theme" title="Toggle theme">
+          ☾
+        </button>
+      </div>
+    </header>
+
+    <!-- Main layout -->
+    <main class="main-layout">
+      <!-- Sidebar -->
+      <aside class="sidebar">
+        <div class="sidebar-heading">
+          <h3>Chat history</h3>
+          <span class="history-count" id="historyCount">0</span>
+        </div>
+
+        <button class="new-chat-button" id="newChatButton" type="button">
+          <span>＋</span> New conversation
+        </button>
+
+        <div class="history-list" id="historyList">
+          <div class="history-empty">Your conversations will appear here.</div>
+        </div>
+
+        <div class="sidebar-footer">
+          <button class="sidebar-action" id="clearHistoryButton" type="button">
+            <span>⌫</span> Clear all history
+          </button>
+          <button class="sidebar-action danger" id="clearChatButton" type="button">
+            <span>×</span> Clear current chat
+          </button>
+        </div>
+      </aside>
+
+      <!-- Chat area -->
+      <section class="chat-panel">
+        <div class="chat-heading">
+          <div class="bot-avatar">AI</div>
+          <div>
+            <h1>AI Doubt Chatbot</h1>
+            <p><span class="online-dot"></span> Ready to help you learn</p>
+          </div>
+        </div>
+
+        <div class="messages" id="messages" aria-live="polite">
+          <div class="welcome-message" id="welcomeMessage">
+            <div class="welcome-icon">✦</div>
+            <h2>What would you like to learn today?</h2>
+            <p>Ask any question and get a clear, step-by-step explanation.</p>
+
+            <div class="suggestions">
+              <button class="suggestion-button" data-question="Explain object-oriented programming with examples." type="button">
+                Explain OOP with examples
+              </button>
+              <button class="suggestion-button" data-question="What is machine learning? Explain its types." type="button">
+                What is machine learning?
+              </button>
+              <button class="suggestion-button" data-question="Explain the difference between stack and queue." type="button">
+                Stack vs. queue
+              </button>
+              <button class="suggestion-button" data-question="Explain the working of a neural network in simple terms." type="button">
+                How do neural networks work?
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="error-message" id="errorMessage" role="alert" hidden></div>
+
+        <form class="chat-form" id="chatForm">
+          <div class="input-wrapper">
+            <textarea
+              id="userInput"
+              rows="1"
+              maxlength="6000"
+              placeholder="Ask your doubt here..."
+              aria-label="Type your question"
+              required
+            ></textarea>
+            <button class="send-button" id="sendButton" type="submit">
+              <span id="sendIcon">➤</span>
+              <span id="sendText">Send</span>
+            </button>
+          </div>
+          <div class="input-footer">
+            <span>Press Enter to send · Shift + Enter for a new line</span>
+            <span>Powered by Groq AI</span>
+          </div>
+        </form>
+      </section>
+    </main>
+  </div>
+
+  <script src="task07.js"></script>
+</body>
+</html>

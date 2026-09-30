@@ -1,0 +1,172 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f8fc">
+  <title>Photo Notes | AI Classroom</title>
+
+  <link rel="stylesheet" href="task10.css">
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js" defer></script>
+  <script src="task10.js" defer></script>
+</head>
+
+<body>
+  <!-- Header -->
+  <header class="topbar">
+    <a class="brand" href="../../index.html">
+      <b>✦</b>
+      AI Classroom
+      <small>/ Photo Notes</small>
+    </a>
+
+    <nav>
+      <button
+        id="themeBtn"
+        class="icon"
+        type="button"
+        aria-label="Toggle theme">
+        ☾
+      </button>
+      <a href="../../index.html">← Dashboard</a>
+    </nav>
+  </header>
+
+  <!-- Main -->
+  <main class="container">
+
+    <!-- Page heading -->
+    <section class="intro">
+      <div class="eyebrow">TASK 10 · OCR</div>
+      <h1>Photo <span>Notes</span></h1>
+      <p>Upload a photo of your notes and extract editable text.</p>
+    </section>
+
+    <!-- Workspace -->
+    <div class="workspace">
+
+      <!-- Image section -->
+      <section class="card">
+        <div class="section-heading">
+          <div>
+            <span class="step">01</span>
+            <h2>Your photo</h2>
+          </div>
+          <span class="format">JPG · PNG · WEBP</span>
+        </div>
+
+        <input
+          id="imageInput"
+          type="file"
+          accept="image/jpeg,image/png,image/webp"
+        >
+
+        <!-- Visible only before selecting an image -->
+        <div id="uploadArea" class="upload-area">
+          <div class="upload-icon">↑</div>
+          <h3>Select a photo</h3>
+          <p>Choose a clear image of your notes.</p>
+
+          <label for="imageInput" class="choose-btn">
+            Choose photo
+          </label>
+
+          <small>Maximum file size: 15 MB</small>
+        </div>
+
+        <!-- Visible after selecting an image -->
+        <div id="previewBox" class="preview-box" hidden>
+          <div class="preview-image">
+            <img id="preview" alt="Selected notes">
+          </div>
+
+          <div class="file-details">
+            <div class="file-info">
+              <strong id="fileName"></strong>
+              <small id="fileSize"></small>
+            </div>
+
+            <div class="file-actions">
+              <label for="imageInput" class="change-btn">
+                Change
+              </label>
+
+              <button
+                id="removeBtn"
+                class="remove-btn"
+                type="button">
+                Remove
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <button
+          id="extractBtn"
+          class="extract-btn"
+          type="button"
+          disabled>
+          ⌕ Extract text
+        </button>
+
+        <p
+          id="ocrStatus"
+          class="status"
+          role="status"
+          aria-live="polite">
+          Select a photo to get started.
+        </p>
+      </section>
+
+      <!-- Text section -->
+      <section class="card">
+        <div class="section-heading">
+          <div>
+            <span class="step">02</span>
+            <h2>Extracted text</h2>
+          </div>
+          <span id="wordCount" class="word-count">0 words</span>
+        </div>
+
+        <textarea
+          id="ocrText"
+          placeholder="Your extracted text will appear here. You can also type or paste text."
+          aria-label="Extracted text"
+          spellcheck="true"></textarea>
+
+        <div class="text-toolbar">
+          <span class="edit-hint">Editable text</span>
+
+          <div class="text-actions">
+            <button
+              id="copyBtn"
+              class="copy-btn"
+              type="button"
+              disabled>
+              Copy text
+            </button>
+
+            <button
+              id="clearBtn"
+              class="clear-btn"
+              type="button">
+              Clear
+            </button>
+          </div>
+        </div>
+
+        <p
+          id="message"
+          class="message"
+          role="status"
+          aria-live="polite"></p>
+      </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer>AI Classroom Studio</footer>
+  </main>
+</body>
+</html>

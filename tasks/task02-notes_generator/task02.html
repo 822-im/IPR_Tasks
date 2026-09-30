@@ -1,0 +1,181 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f7f6fb">
+    <title>AI Notes Generator | AI Classroom</title>
+
+    <link rel="stylesheet" href="task02.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.8.0/mammoth.browser.min.js"></script>
+    <script src="task02.js" defer></script>
+</head>
+<body>
+    <div class="page-container">
+        <header class="header">
+            <a class="logo" href="../../index.html">
+                <span class="logo-icon">✦</span>
+                <span>AI Classroom</span>
+            </a>
+
+            <div class="header-right">
+                <span class="page-label">Notes Generator</span>
+                <button class="theme-toggle" id="themeToggle"
+                    type="button" aria-label="Switch to dark mode">☾</button>
+                <a href="../../index.html" class="back-link">← Dashboard</a>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <section class="page-heading">
+                <span class="eyebrow">TASK 02 · STUDY SMARTER</span>
+                <h1>AI Notes <span class="accent">Generator.</span></h1>
+                <p>Turn your study material into clear, organized and revision-ready notes.</p>
+            </section>
+
+            <div class="workspace-grid">
+                <section class="card input-card">
+                    <div class="card-title">
+                        <div>
+                            <span class="step-label">01 / INPUT</span>
+                            <h2>Create your notes</h2>
+                            <p class="description">
+                                Enter a topic, paste your material or upload a document.
+                            </p>
+                        </div>
+                    </div>
+
+                    <form id="notesForm">
+                        <div class="form-group">
+                            <label for="notesTopic">TOPIC / SUBJECT</label>
+                            <input
+                                id="notesTopic"
+                                type="text"
+                                placeholder="e.g. Machine Learning"
+                                autocomplete="off"
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="sourceText">STUDY MATERIAL</label>
+                            <textarea
+                                id="sourceText"
+                                rows="7"
+                                placeholder="Paste textbook content, lecture notes or study material here..."
+                            ></textarea>
+                            <div class="input-meta">
+                                <span>Paste your content or upload a file below.</span>
+                                <span id="wordCount">0 words</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>UPLOAD STUDY MATERIAL</label>
+
+                            <label class="upload-box" id="uploadBox" for="sourceFile">
+                                <span class="upload-icon">↑</span>
+                                <span class="upload-copy">
+                                    <strong>Click to upload or drag a file here</strong>
+                                    <small>PDF, DOCX, TXT, JPG or PNG · Max 10 MB</small>
+                                </span>
+                            </label>
+
+                            <input
+                                id="sourceFile"
+                                type="file"
+                                accept=".pdf,.docx,.txt,.jpg,.jpeg,.png"
+                                hidden
+                            >
+
+                            <div id="fileInfo" class="file-info" hidden>
+                                <span class="file-icon">▤</span>
+                                <span id="fileName"></span>
+                                <button type="button" id="removeFile"
+                                    class="remove-file" aria-label="Remove file">×</button>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="notesStyle">NOTES STYLE</label>
+                                <select id="notesStyle">
+                                    <option value="detailed">Detailed notes</option>
+                                    <option value="concise">Concise notes</option>
+                                    <option value="exam">Exam-oriented notes</option>
+                                    <option value="beginner">Beginner-friendly notes</option>
+                                    <option value="revision">Quick revision notes</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="notesLength">LENGTH</label>
+                                <select id="notesLength">
+                                    <option value="short">Short</option>
+                                    <option value="medium" selected>Medium</option>
+                                    <option value="long">Long</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div id="errorMessage" class="error-message"
+                            role="alert" aria-live="polite"></div>
+
+                        <button type="submit" class="primary-button"
+                            id="generateButton">
+                            <span id="buttonText">Generate Notes</span>
+                            <span class="button-arrow">→</span>
+                        </button>
+
+                        <p class="security-note">
+                            Your API key is reused from the AI Classroom start page.
+                        </p>
+                    </form>
+                </section>
+
+                <section class="card output-card">
+                    <div class="output-header">
+                        <div>
+                            <span class="step-label">02 / OUTPUT</span>
+                            <h2>Generated notes</h2>
+                            <p class="description" id="outputStatus">
+                                Your formatted notes will appear here.
+                            </p>
+                        </div>
+
+                        <div class="output-actions">
+                            <button class="secondary-button" id="copyButton"
+                                type="button" disabled>Copy</button>
+                            <button class="secondary-button" id="downloadButton"
+                                type="button" disabled>TXT</button>
+                            <button class="secondary-button" id="printButton"
+                                type="button" disabled>PDF</button>
+                        </div>
+                    </div>
+
+                    <div class="notes-stage">
+                        <article class="notes-paper" id="notesOutput"
+                            aria-live="polite">
+                            <div class="empty-state" id="emptyState">
+                                <div class="empty-icon">✎</div>
+                                <h3>Your notes will appear here</h3>
+                                <p>
+                                    Enter a topic or upload study material
+                                    and click Generate Notes.
+                                </p>
+                            </div>
+                        </article>
+                    </div>
+
+                    <div class="output-footer">
+                        <span>You can edit the generated notes directly.</span>
+                        <span id="outputWordCount">0 words</span>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

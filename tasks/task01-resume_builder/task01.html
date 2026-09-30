@@ -1,0 +1,261 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AI Resume Builder | AI Classroom</title>
+    <link rel="stylesheet" href="task01.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="https://unpkg.com/mammoth@1.8.0/mammoth.browser.min.js"></script>
+    <script src="task01.js" defer></script>
+</head>
+<body>
+<div class="page-container">
+    <header class="header">
+        <a class="logo" href="../../index.html">
+            <span class="logo-icon">✦</span>
+            <span>AI Classroom</span>
+        </a>
+
+        <nav class="header-actions">
+            <button class="theme-toggle" id="themeToggle"
+                    type="button" aria-label="Switch to dark mode">☾</button>
+            <a class="back-link" href="../../index.html">← Dashboard</a>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <div class="workspace">
+            <div class="page-heading">
+                <span class="eyebrow">TASK 01 · CAREER TOOL</span>
+                <h1>AI Resume <span class="accent">Builder.</span></h1>
+                <p>Create a professional resume or improve an existing one.</p>
+            </div>
+
+            <div class="tabs" role="tablist" aria-label="Resume tools">
+                <button class="tab active" type="button"
+                        data-tab="builder" role="tab" aria-selected="true">
+                    Build Resume
+                </button>
+                <button class="tab" type="button"
+                        data-tab="analyzer" role="tab" aria-selected="false">
+                    Analyze Resume
+                </button>
+            </div>
+
+            <!-- BUILD RESUME -->
+            <section class="tab-panel" id="builderPanel">
+                <div class="builder-grid" id="builderGrid">
+
+                    <!-- FORM -->
+                    <section class="card" id="builderFormCard">
+                        <h2>Resume details</h2>
+                        <p class="description">
+                            Upload an existing resume to autofill the form,
+                            or enter your details manually.
+                        </p>
+
+                        <div class="upload-resume-box">
+                            <h3>Upload an existing resume</h3>
+                            <p>Extract available information and fill in the fields below.</p>
+
+                            <div class="form-group">
+                                <label for="existingResume">CHOOSE RESUME</label>
+                                <input type="file" id="existingResume"
+                                       accept=".pdf,.docx,.txt">
+                                <span class="hint">PDF, DOCX or TXT · Maximum 10 MB</span>
+                            </div>
+
+                            <button type="button" id="autofillResume"
+                                    class="secondary-button autofill-button">
+                                <span id="autofillText">Extract details &amp; fill form</span>
+                            </button>
+                            <p id="uploadError" class="error-message"
+                               role="alert"></p>
+                        </div>
+
+                        <div class="section-divider">
+                            <span>OR ENTER YOUR DETAILS</span>
+                        </div>
+
+                        <form id="builderForm">
+                            <div class="form-group">
+                                <label for="fullName">FULL NAME *</label>
+                                <input id="fullName" type="text"
+                                       placeholder="Your full name" required>
+                            </div>
+
+                            <div class="two-columns">
+                                <div class="form-group">
+                                    <label for="email">EMAIL *</label>
+                                    <input id="email" type="email"
+                                           placeholder="name@email.com" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="phone">PHONE</label>
+                                    <input id="phone" type="tel"
+                                           placeholder="+91 98765 43210">
+                                </div>
+                            </div>
+
+                            <div class="two-columns">
+                                <div class="form-group">
+                                    <label for="location">LOCATION</label>
+                                    <input id="location"
+                                           placeholder="City, State">
+                                </div>
+                                <div class="form-group">
+                                    <label for="linkedin">LINKEDIN / PORTFOLIO</label>
+                                    <input id="linkedin"
+                                           placeholder="linkedin.com/in/yourname">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="targetRole">TARGET JOB ROLE *</label>
+                                <input id="targetRole"
+                                       placeholder="e.g. Software Developer" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="education">EDUCATION</label>
+                                <textarea id="education"
+                                    placeholder="Degree, institution, dates, CGPA"></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="skills">SKILLS</label>
+                                <textarea id="skills"
+                                    placeholder="Programming languages, tools and frameworks"></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="experience">EXPERIENCE / INTERNSHIPS</label>
+                                <textarea id="experience"
+                                    placeholder="Role, organization, dates and contributions"></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="projects">PROJECTS</label>
+                                <textarea id="projects"
+                                    placeholder="Project name, technologies and outcomes"></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="certifications">CERTIFICATIONS / ACHIEVEMENTS</label>
+                                <textarea id="certifications"
+                                    placeholder="Certifications, awards and achievements"></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="jobDescription">JOB DESCRIPTION (OPTIONAL)</label>
+                                <textarea id="jobDescription"
+                                    placeholder="Paste the job description to tailor your resume"></textarea>
+                            </div>
+
+                            <p id="builderError" class="error-message"
+                               role="alert"></p>
+
+                            <div class="form-buttons">
+                                <button class="primary-button" id="buildButton"
+                                        type="submit">
+                                    <span id="buildButtonText">Generate Resume</span>
+                                    <span aria-hidden="true">→</span>
+                                </button>
+                                <button class="secondary-button" id="clearForm"
+                                        type="button">Clear form</button>
+                            </div>
+                        </form>
+                    </section>
+
+                    <!-- GENERATED RESUME: HIDDEN UNTIL SUCCESS -->
+                    <section class="card preview-card" id="previewCard" hidden>
+                        <div class="preview-header">
+                            <div>
+                                <h2>Your resume</h2>
+                                <p class="description">
+                                    Review and edit your generated resume.
+                                </p>
+                            </div>
+                            <div class="preview-actions">
+                                <button class="secondary-button" id="editResume"
+                                        type="button">← Edit details</button>
+                                <button class="secondary-button" id="copyResume"
+                                        type="button" disabled>Copy</button>
+                                <button class="secondary-button" id="printResume"
+                                        type="button" disabled>Print / PDF</button>
+                            </div>
+                        </div>
+                        <div id="resumePreview" class="resume-preview"
+                             contenteditable="true"
+                             aria-label="Editable resume preview"
+                             spellcheck="true"></div>
+                    </section>
+                </div>
+            </section>
+
+            <!-- ANALYZE RESUME -->
+            <section class="tab-panel" id="analyzerPanel" hidden>
+                <div class="analyzer-grid">
+                    <section class="card">
+                        <h2>Resume assessment</h2>
+                        <p class="description">
+                            Upload a resume for a structured review and
+                            improvement suggestions.
+                        </p>
+
+                        <form id="analyzerForm">
+                            <div class="form-group">
+                                <label for="resumeFile">UPLOAD RESUME *</label>
+                                <input type="file" id="resumeFile"
+                                       accept=".pdf,.docx,.txt" required>
+                                <span class="hint">
+                                    PDF, DOCX or TXT · Maximum 10 MB
+                                </span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="analysisRole">TARGET ROLE (OPTIONAL)</label>
+                                <input id="analysisRole"
+                                       placeholder="e.g. Data Analyst">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="analysisJD">JOB DESCRIPTION (OPTIONAL)</label>
+                                <textarea id="analysisJD"
+                                    placeholder="Paste the job description"></textarea>
+                            </div>
+
+                            <p id="analysisError" class="error-message"
+                               role="alert"></p>
+
+                            <button class="primary-button" id="analyzeButton"
+                                    type="submit">
+                                <span id="analyzeButtonText">Analyze Resume</span>
+                                <span aria-hidden="true">→</span>
+                            </button>
+                        </form>
+                    </section>
+
+                    <section class="card">
+                        <div class="preview-header">
+                            <div>
+                                <h2>Assessment report</h2>
+                                <p class="description">Your review will appear here.</p>
+                            </div>
+                            <button class="secondary-button" id="copyAnalysis"
+                                    type="button" disabled>Copy report</button>
+                        </div>
+                        <div id="analysisOutput" class="analysis-output">
+                            Upload a resume and select Analyze Resume to begin.
+                        </div>
+                    </section>
+                </div>
+            </section>
+        </div>
+    </main>
+</div>
+</body>
+</html>

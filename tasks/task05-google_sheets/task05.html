@@ -1,0 +1,195 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f7f6fb">
+    <title>Google Sheets AI Assistant | AI Classroom</title>
+    <link rel="stylesheet" href="task05.css">
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <script src="task05.js" defer></script>
+</head>
+<body>
+
+<header class="topbar">
+    <a href="../../index.html" class="brand">
+        <span class="brand-icon">✦</span>
+        <span>AI Classroom</span>
+    </a>
+
+    <div class="header-right">
+        <span class="task-label">Sheets AI Assistant</span>
+        <button id="themeToggle" class="theme-toggle"
+                type="button" aria-label="Switch to dark mode">☾</button>
+        <a href="../../index.html" class="dashboard-link">← Dashboard</a>
+    </div>
+</header>
+
+<main class="main-content">
+
+    <section class="page-heading">
+        <span class="eyebrow">TASK 05 · SPREADSHEET TOOLS</span>
+        <h1>Google Sheets <span class="accent">AI Assistant.</span></h1>
+        <p>Analyze data, generate formulas and make better use of your spreadsheets.</p>
+    </section>
+
+    <div class="workspace-grid">
+
+        <!-- INPUT -->
+        <section class="card input-card">
+            <div class="section-heading">
+                <div class="step-label">01 / INPUT</div>
+                <h2>Spreadsheet workspace</h2>
+                <p>Upload your spreadsheet or ask for help with a formula.</p>
+            </div>
+
+            <form id="spreadsheetForm">
+
+                <div class="form-group">
+                    <label for="spreadsheetFile">UPLOAD SPREADSHEET</label>
+
+                    <label for="spreadsheetFile" class="upload-area"
+                           id="uploadArea">
+                        <span class="upload-icon">↑</span>
+                        <span class="upload-copy">
+                            <strong>Upload a spreadsheet</strong>
+                            <small>CSV, XLSX or XLS · Max 15 MB</small>
+                        </span>
+                    </label>
+
+                    <input type="file" id="spreadsheetFile"
+                           accept=".csv,.xlsx,.xls" hidden>
+
+                    <div class="file-info" id="fileInfo" hidden>
+                        <div class="file-details">
+                            <span class="file-icon">▤</span>
+                            <div class="file-text">
+                                <strong id="fileName"></strong>
+                                <span id="fileMeta"></span>
+                            </div>
+                        </div>
+                        <button id="removeFile" class="remove-button"
+                                type="button" aria-label="Remove file">×</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="sheetSelect">WORKSHEET</label>
+                    <select id="sheetSelect" disabled>
+                        <option value="">Upload a spreadsheet first</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="actionSelect">WHAT WOULD YOU LIKE TO DO?</label>
+                    <select id="actionSelect">
+                        <option value="analyze">Analyze spreadsheet data</option>
+                        <option value="formula">Generate a spreadsheet formula</option>
+                        <option value="clean">Identify data-quality issues</option>
+                        <option value="explain">Explain the spreadsheet</option>
+                        <option value="custom">Custom request</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="userPrompt">YOUR INSTRUCTIONS</label>
+                    <textarea id="userPrompt" rows="5"
+                        placeholder="e.g. Calculate the total sales for each region and explain the results..."></textarea>
+                    <div class="field-footer">
+                        <small>Add details to guide the AI.</small>
+                        <small id="wordCount">0 words</small>
+                    </div>
+                </div>
+
+                <div class="examples">
+                    <span class="examples-title">QUICK PROMPTS</span>
+                    <div class="example-buttons">
+                        <button type="button" class="example-button"
+                            data-action="analyze"
+                            data-prompt="Analyze the data and summarize the most important findings.">
+                            Analyze data
+                        </button>
+                        <button type="button" class="example-button"
+                            data-action="formula"
+                            data-prompt="Create an appropriate formula for calculating the total. Explain how to use it.">
+                            Create formula
+                        </button>
+                        <button type="button" class="example-button"
+                            data-action="clean"
+                            data-prompt="Identify missing values, duplicate records, inconsistent formats and other data-quality issues.">
+                            Find data issues
+                        </button>
+                    </div>
+                </div>
+
+            
+
+                <p class="error-message" id="errorMessage"
+                   role="alert" aria-live="polite"></p>
+
+                <button class="primary-button" id="generateButton"
+                        type="submit">
+                    <span id="buttonText">Generate Result</span>
+                    <span>→</span>
+                </button>
+            </form>
+        </section>
+
+        <!-- OUTPUT: hidden until Generate Result is clicked -->
+        <div class="output-column" id="outputColumn" hidden>
+
+            <!-- DATA PREVIEW -->
+            <section class="card preview-card" id="previewSection" hidden>
+                <div class="section-heading output-header">
+                    <div>
+                        <div class="step-label">02 / DATA</div>
+                        <h2>Data preview</h2>
+                        <p>Review the selected worksheet before analysis.</p>
+                    </div>
+                    <button id="downloadCsv" class="secondary-button"
+                            type="button" disabled>↓ CSV</button>
+                </div>
+
+                <div class="table-container" id="tableContainer">
+                    <div class="empty-state">
+                        <div class="empty-icon">▦</div>
+                        <h3>No spreadsheet uploaded</h3>
+                        <p>Upload a CSV or Excel file to preview your data.</p>
+                    </div>
+                </div>
+                <p class="preview-note" id="previewNote"></p>
+            </section>
+
+            <!-- AI RESULTS -->
+            <section class="card result-card" id="resultsSection" hidden>
+                <div class="section-heading output-header">
+                    <div>
+                        <div class="step-label">03 / OUTPUT</div>
+                        <h2>AI results</h2>
+                        <p>Your analysis and formulas will appear here.</p>
+                    </div>
+                    <div class="output-actions">
+                        <button id="copyResult" class="secondary-button"
+                                type="button" disabled>Copy</button>
+                        <button id="downloadResult" class="secondary-button"
+                                type="button" disabled>↓ TXT</button>
+                    </div>
+                </div>
+
+                <div id="resultOutput" class="result-output"
+                     aria-live="polite">
+                    <div class="empty-state">
+                        <div class="empty-icon">✧</div>
+                        <h3>Ready to assist</h3>
+                        <p>Your AI results will appear here.</p>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </div>
+</main>
+
+</body>
+</html>
